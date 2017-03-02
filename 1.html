@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Getting Started with the Dropbox API</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">
+              Dropbox API: Getting Started
+            </a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Step 1: HTTP Review <span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="index.html">Welcome</a></li>
+                  <li><a href="#">Step 1: HTTP Review</a></li>
+                  <li><a href="2.html">Step 2: OAuth</a></li>
+                  <li><a href="3.html">Step 3: Hello Dropbox</a></li>
+                  <li><a href="4.html">Step 4: Uploading</a></li>
+                  <li><a href="5.html">Step 5: Downloading</a></li>
+                  <li><a href="6.html">Step 6: Dropbox Storage</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <br>
+      <p class="text-center ptp-body-text">Before we get into the Dropbox side of things, we are going to review the basics of sending and receiving HTTP requests using Javascript. The code below illustrates a simple asynchronous GET request. Go to the result page to see what happens when this code runs.</p><br>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <!-- <iframe width="100%" height="200" src="code1.html"></iframe> -->
+          <script async src="http://jsfiddle.net/pedrotp/bz14vd9z/embed/js,result/"></script>
+        </div>
+      </div>
+      <br>
+      <p class="ptp-body-text">Let's look at this code line by line:</p>
+      <blockquote>
+        <code>var request = new XMLHttpRequest();</code>
+      </blockquote>
+      <p class="ptp-body-text">This initial line is creating a new <code>XMLHttpRequest</code> object, which is responsible for allowing us to make and receive HTTP requests in the browser.</p>
+      <blockquote>
+        <code>request.open('GET', "//ipinfo.io/json", true);</code>
+      </blockquote>
+      <p class="ptp-body-text">Here we use the <code>XMLHttpRequest</code> object we created to open a new asychronous GET request to the url "http://ipinfo.io/json". This is a test url that returns information about the sender's IP address.</p>
+      <blockquote>
+        <code>request.addEventListener("load", showIP);</code>
+      </blockquote>
+      <p class="ptp-body-text">Because the GET request we are sending is asynchronous, we need to listen for a "load" event that lets us know we have received a response from the server. We are specifying that when we receive the response, we will execute the <em>showIP</em> function.</p>
+      <blockquote>
+        <code>request.send();</code>
+      </blockquote>
+      <p class="ptp-body-text">This line fires off the request to the server.</p>
+      <blockquote>
+        <code>function showIP() {...};</code>
+      </blockquote>
+      <p class="ptp-body-text">This is the function definition for the showIP function that handles the response from the server. In this case, we are specifying that if the request was successful (response code 200), we should parse the response from the server and alert the user with the <em>ip</em> property from the response object.</p>
+      <h3 class="text-center">That's it! If you need a bit more HTTP review, check out <a href="https://www.kirupa.com/html5/making_http_requests_js.htm">the full tutorial</a> by kirupa.</h3><h3 class="text-center">Otherwise, head on over to the next step!</h3>
+      <nav>
+        <ul class="pager">
+          <!-- <li class="previous disabled"><a href="#"><span aria-hidden="true">&larr;</span> Previous</a></li> -->
+          <li class="next"><a href="2.html">Next <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>
