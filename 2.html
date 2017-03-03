@@ -4,14 +4,11 @@
     <meta charset="utf-8">
     <title>Getting Started with the Dropbox API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css"> -->
     <link rel="stylesheet" href="styles.css">
-    <base target="_blank">
-    <form target="_self">.
   </head>
   <body>
-
     <div class="container">
       <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
@@ -47,16 +44,44 @@
         </div><!-- /.container-fluid -->
       </nav>
       <br>
-      <p class="text-center ptp-body-text">Prior to sending any requests to the Dropbox API, you have to tell Dropbox who you are (App Authentication) and which user is granting you access to their Dropbox account (User Authentication). To do that, you are going to use an open specification called <a href="http://oauth.net/2/">OAuth</a>. You can learn more about how Dropbox uses OAuth in their <a href="https://www.dropbox.com/developers/reference/oauth-guide">OAuth Guide</a>.</p><br>
+      <h1 class="text-center">OAuth</h1><br>
+      <p class="lead text-center">Prior to sending any requests to the Dropbox API, you have to tell Dropbox who you are (App Authentication) and which user is granting you access to their Dropbox account (User Authentication). To do that, you are going to use an open specification called <a href="http://oauth.net/2/" target="_blank">OAuth</a>. You can learn more about how Dropbox uses OAuth in their <a href="https://www.dropbox.com/developers/reference/oauth-guide" target="_blank">OAuth Guide</a>.</p><br>
       <h3>App Authentication</h3>
       <p class="ptp-body-text">To authenticate your app with the Dropbox API, you need to register your app to get a key, which you will use to authenticate all HTTP requests to Dropbox. The following lines from the "Setting up your app" section of the Dropbox OAuth guide explain what to do to register:</p>
       <blockquote cite="https://www.dropbox.com/developers/reference/oauth-guide">
-        Before you can get started, you'll need to register your app with Dropbox by creating a new app in <a href="https://www.dropbox.com/developers/apps">My apps</a>. That page will guide you through the process of registering your app, including choosing which <a href="https://www.dropbox.com/developers/reference/developer-guide#app-permissions">permission</a> your app needs, and specifying an app name.
+        Before you can get started, you'll need to register your app with Dropbox by creating a new app in <a href="https://www.dropbox.com/developers/apps" target="_blank">My apps</a>. That page will guide you through the process of registering your app, including choosing which <a href="https://www.dropbox.com/developers/reference/developer-guide#app-permissions" target="_blank">permission</a> your app needs, and specifying an app name.
       </blockquote>
-      <p class="ptp-body-text">Go throught the process above to register a new app with "App folder" permission. This means it will only have access to its own app folder inside the user's dropbox, located at <code>Apps/[YourApp]</code>. Once you've gone through the process outlined above, you should have gotten an app key, which you will use in this tutorial by replacing <code>[YOUR-APP-KEY]</code> in all the code snippets going forward.</p>
+      <p class="ptp-body-text">After going through the process outlined above, you will get an <strong>app key</strong>, which you will use to authenticate your app for all requests to the API. You will also choose a <strong>redirect uri</strong> and a <strong>response type</strong>. More on both of these below.</p>
       <h3>User Authentication</h3>
-      <p class="ptp-body-text">Ok, now comes the tricky part. To get access to your app folder inside the user's Dropbox, you need to have that user authenticate with Dropbox and give your app access. To do that, they will be directed to a Dropbox site using a special URL, where they will enter their credentials. After authorizing your app, they will be redirected back to your site where you will be able to make requests to the Dropbox API to access the files in their <code>Apps/[YourApp]</code> folder.<br><br>Let's look at that special Authentication URL below.</p>
-      <h2 class="text-center"><code></code></h2>
+      <p class="ptp-body-text">Ok, now comes the tricky part. To get access to your app folder inside the user's Dropbox, you need to have that user authenticate with Dropbox and give your app access. To do that, they will be directed to a Dropbox site using a special URL like this one:</p>
+      <h4 class="text-center">
+        <code>https://www.dropbox.com/1/oauth2/authorize/?response_type=token&client_id=[YOUR-APP-KEY]&redirect_uri=[YOUR-REDIRECT-URI]</code>
+      </h4>
+      <p class="ptp-body-text">On the Dropbox site, the user will authenticate and authorize your app. Then, they will be redirected back to your site where you will be able to make requests to the Dropbox API, and access the files in their <code>Apps/[YourApp]</code> folder.<br><br>Let's look at that authentication URL line by line:</p>
+      <blockquote>
+        <code>https://www.dropbox.com/1/oauth2/authorize/</code>
+      </blockquote>
+      <p class="ptp-body-text">This is the base url that leads to the dropbox authentication page. This url will not work on its own without the <code>client_id</code> and <code>response_type</code> parameters.</p>
+      <blockquote>
+        <code>response_type=token</code>
+      </blockquote>
+      <p class="ptp-body-text">There are two authentication flows for the Dropbox API: <strong>token</strong> and <strong>code</strong>. You can learn about both of them <a href="https://www.dropbox.com/developers-v1/core/docs#oa2-authorize">here</a>. For the purposes of this tutorial, we will be using the <strong>token</strong> flow.</p>
+      <blockquote>
+        <code>client_id=[YOUR-APP-KEY]</code>
+      </blockquote>
+      <p class="ptp-body-text">This tells Dropbox who you are, by identifying your registered app by its app id.</p>
+      <blockquote>
+        <code>redirect_uri=[YOUR-REDIRECT-URI]</code>
+      </blockquote>
+      <p class="ptp-body-text">Finally, this tells Dropbox where to send the user once they've granted your app the proper permissions. This will be the uri of a page on your site that will be set up to read the user's information.</p>
+      <hr>
+      <h3 class="text-center">Now let's see all of this in action!</h3>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <script async src="http://jsfiddle.net/pedrotp/Lm4vn68L/10/embed/html/"></script>
+          <iframe src="app.html" width="100%" height="400px"></iframe>
+        </div>
+      </div>
       <nav>
         <ul class="pager">
           <li class="previous"><a href="1.html"><span aria-hidden="true">&larr;</span> Previous</a></li>
