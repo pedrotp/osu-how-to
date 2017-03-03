@@ -14,4 +14,42 @@
       <span class="fa fa-dropbox"></span>Log in with Dropbox</a>
     </div>
   </body>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(function () {
+      console.log(window.location.search);
+      var QueryObj = function () {
+        // function to decode a uri query string from http://stackoverflow.com/a/979995
+        var query_string = {};
+        var query = window.location.search.substring(1);
+        var vars = query.split("#");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+              // If first entry with this name
+          if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+              // If second entry with this name
+          } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+            query_string[pair[0]] = arr;
+              // If third or later entry with this name
+          } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+          }
+        }
+        return query_string;
+      }();
+
+      if (Object.keys(QueryObj).length == 0) {
+
+      }
+      for (key in QueryObj) {
+        console.log(key + ": " + QueryObj[key]);
+      }
+
+    });
+  </script>
 </html>
