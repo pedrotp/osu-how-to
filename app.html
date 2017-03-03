@@ -43,7 +43,7 @@
       }();
 
       if (window.location.hash) {
-        $('div.container')[0].html('<h1 class="text-center">Congrats! You have been authenticated</h1><h3>Your Dropbpox ID is ' + QueryObj.account_id.substring(5) + '</h3>');
+        $($('div.container')[0]).html('<h1 class="text-center">Congrats! You have been authenticated</h1><h3>Your Dropbpox ID is ' + QueryObj.account_id.substring(5) + '</h3>');
       }
 
     });
