@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test App</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+    </div>
+  </body>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(function () {
+      var QueryObj = function () {
+        // function to decode a uri query string from http://stackoverflow.com/a/979995
+        var query_string = {};
+        var query = window.location.hash.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+              // If first entry with this name
+          if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+              // If second entry with this name
+          } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+            query_string[pair[0]] = arr;
+              // If third or later entry with this name
+          } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+          }
+        }
+        return query_string;
+      }();
+
+      if (QueryObj.account_id) {
+        $($('div.container')[0]).html('<h1 class="text-center">Congrats! You have been authenticated.</h1><h3 class="text-center">Your Dropbpox ID is ' + QueryObj.account_id.substring(5) + '</h3>');
+      } else {
+        $($('div.container')[0]).html('<h1 class="text-center">Whoops! You have not been authenticated properly.</h1><h3 class="text-center">A valid Dropbox ID was not found.</h3>');
+      }
+
+    });
+  </script>
+</html>

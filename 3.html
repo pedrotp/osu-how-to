@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Getting Started with the Dropbox API</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" />
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid">
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.html">
+              Dropbox API: Getting Started
+            </a>
+          </div>
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Step 3: Uploading<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+                  <li><a href="index.html">Welcome</a></li>
+                  <li><a href="1.html">Step 1: HTTP Review</a></li>
+                  <li><a href="2.html">Step 2: OAuth</a></li>
+                  <li><a href="#">Step 3: Uploading</a></li>
+                  <li><a href="4.html">Step 4: Downloading</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+      </nav>
+      <br>
+      <h1 class="text-center">Uploading Files</h1><br>
+      <p class="lead text-center">OK, now that we've learned how to authenticate with the Dropbox API, we are going to learn how to save files to our user's dropbox account. The code below is the 'upload' landing page that the user will now be redirected to after they log in with their Dropbox credentials. It uses the <a href="https://github.com/Giphy/GiphyAPI" target="_blank">Giphy API</a> to allow the user to search for gifs that match a particular set of keywords, and then save them to their Dropbox with one click. To do this, we use the <code>/save_url</code> endpoint in Dropbox's API. Let's focus on a few key lines in the code below:</p>
+
+      <blockquote>
+        <code>request.open('POST', 'https://api.dropboxapi.com/2/files/save_url', true);</code>
+      </blockquote>
+      <p class="ptp-body-text">Here, we open our asynchronous POST request to the save_url endpoint in the Dropbox API.</p>
+      <blockquote>
+        <code>request.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);</code>
+      </blockquote>
+      <p class="ptp-body-text">This line sets the Authorization request header to the bearer token we received during authentication in the previous page of the tutorial. This header tells the Dropbox API who we are.</p>
+      <blockquote>
+        <code>var data = { path: '/' + fileName, url: $(this).attr('src') };</code>
+      </blockquote>
+      <p class="ptp-body-text">This is the data that is sent to Dropbox as JSON. It includes two parameters, the <strong>path</strong> where we are going to store the file in our app folder, and the <strong>url</strong> from which we are fetching the file. In this case, the URL is the <em>src</em> attribute of the image we just clicked on.</p>
+      <br>
+      <p class="ptp-body-text">Explore the rest of the code in the fiddle below, and then hit the <strong>Log in with Dropbox</strong> button below to log in and try the landing page in action. Make sure to save some great gif images to your account that we can access in the next step! When you are done exploring, hit 'next' to continue.</p>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <script async src="http://jsfiddle.net/pedrotp/y5u11nLt/2/embed/js,html/"></script>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <h1 class="text-center">Log in here:</h1>
+        <a class="btn btn-large btn-social btn-dropbox col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4" target="_blank" href="https://www.dropbox.com/1/oauth2/authorize/?response_type=token&client_id=30s66ycuybxn0ai&redirect_uri=https://pedrotp.github.io/osu-how-to/upload.html">
+        <span class="fa fa-dropbox"></span>Log in with Dropbox</a>
+      </div>
+      <nav>
+        <ul class="pager">
+          <li class="previous"><a href="2.html"><span aria-hidden="true">&larr;</span> Previous</a></li>
+          <li class="next"><a href="4.html">Next <span aria-hidden="true">&rarr;</span></a></li>
+        </ul>
+      </nav>
+    </div>
+  </body>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js" integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</html>

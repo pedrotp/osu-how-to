@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Test App</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div id="main-container" class="container">
+      <img class="center-block" src="assets/giphy.png" height="50px" alt="giphy logo">
+      <h1 class="text-center">Search for a gif, and click on any result to save it to your Dropbox.</h1>
+      <form>
+        <div class="form-group">
+          <label class="sr-only" for="searchbox">Amount (in dollars)</label>
+          <div class="input-group input-group-lg">
+            <span class="input-group-addon"><i class="fa fa-search" aria-hidden="true"></i></span>
+            <input type="text" class="form-control" placeholder="Enter search terms " id="searchbox">
+          </div>
+        </div>
+        <button type="submit" class="btn btn-lg btn-block btn-primary" id="searchbtn">Search</button>
+      </form>
+      <div id="imagediv">
+      </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="30s66ycuybxn0ai"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script type="text/javascript">
+    $(function () {
+      var searchTerm;
+      var saveCount = 1;
+      var QueryObj = function () {
+        // function to decode a uri query string from http://stackoverflow.com/a/979995
+        var query_string = {};
+        var query = window.location.hash.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+          var pair = vars[i].split("=");
+              // If first entry with this name
+          if (typeof query_string[pair[0]] === "undefined") {
+            query_string[pair[0]] = decodeURIComponent(pair[1]);
+              // If second entry with this name
+          } else if (typeof query_string[pair[0]] === "string") {
+            var arr = [ query_string[pair[0]],decodeURIComponent(pair[1]) ];
+            query_string[pair[0]] = arr;
+              // If third or later entry with this name
+          } else {
+            query_string[pair[0]].push(decodeURIComponent(pair[1]));
+          }
+        }
+        return query_string;
+      }();
+
+      $('#searchbtn').click(function (event) {
+        event.preventDefault();
+        if (QueryObj.account_id) {
+          var request = new XMLHttpRequest();
+          searchTerm = $('#searchbox').val()
+          request.open('GET', 'http://api.giphy.com/v1/gifs/search?q=' + encodeURIComponent(searchTerm) + '&api_key=dc6zaTOxFJmzC', true);
+          request.addEventListener("load", searchReq);
+          request.send();
+
+          function searchReq() {
+            if (request.status == 200) {
+                var resData = JSON.parse(request.responseText).data;
+                console.log(resData);
+                for (var i = 0; i < resData.length; i++) {
+                  var img = $('<img class="img-thumbnail">');
+                  img.attr('src', resData[i].images.fixed_height.url);
+                  img.appendTo('#imagediv');
+                }
+            }
+          }
+        }
+        else {
+          $($('div.container')[0]).html('<h1 class="text-center">Whoops! You have not been authenticated properly.</h1><h3 class="text-center">A valid Dropbox ID was not found.</h3>');
+        }
+      });
+
+      $(document).on('click','.img-thumbnail',function (event) {
+
+        var request = new XMLHttpRequest();
+        var fileName = 'gif'+ saveCount + '.gif';
+        request.open('POST', 'https://api.dropboxapi.com/2/files/save_url', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);
+        request.addEventListener("load", saveImage);
+        var data = { path: '/' + fileName, url: $(this).attr('src') };
+        request.send(JSON.stringify(data));
+
+        var target = this;
+        function saveImage() {
+          if (request.status == 200) {
+            var alert = $('<div class="alert alert-success fade in" role="alert">Image added to your Dropbox account!</div>');
+            $('#main-container').prepend(alert);
+            alert.delay(800).fadeOut();
+            target.hide();
+          } else {
+            var alert = $('<div class="alert alert-danger fade in" role="alert">Error! Image not saved.</div>');
+            $('#main-container').prepend(alert);
+            alert.delay(800).fadeOut();
+          }
+        }
+
+      });
+
+    });
+  </script>
+</html>

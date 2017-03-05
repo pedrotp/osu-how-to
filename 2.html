@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>Getting Started with the Dropbox API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" />
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -31,10 +33,8 @@
                   <li><a href="index.html">Welcome</a></li>
                   <li><a href="1.html">Step 1: HTTP Review</a></li>
                   <li><a href="#">Step 2: OAuth</a></li>
-                  <li><a href="3.html">Step 3: Hello Dropbox</a></li>
-                  <li><a href="4.html">Step 4: Uploading</a></li>
-                  <li><a href="5.html">Step 5: Downloading</a></li>
-                  <li><a href="6.html">Step 6: Dropbox Storage</a></li>
+                  <li><a href="3.html">Step 3: Uploading</a></li>
+                  <li><a href="4.html">Step 4: Downloading</a></li>
                 </ul>
               </li>
             </ul>
@@ -73,13 +73,20 @@
       </blockquote>
       <p class="ptp-body-text">Finally, this tells Dropbox where to send the user once they've granted your app the proper permissions. This will be the uri of a page on your site that will be set up to read the user's information.</p>
       <hr>
-      <h3 class="text-center">Now let's see all of this in action!</h3>
+      <h2 class="text-center">Now let's see all of this in action!</h2><br>
+      <p class="ptp-body-text">The code below is for a landing page that simply checks whether the user has properly authenticated or not, and displays a message informing the user. The <strong>Log in with Dropbox</strong> button below is just a link with the above authentication url as the target. It opens the Dropbox authentication website in a new window because Dropbox does not allow that site to be opened in an iframe or embedded script. Once you authenticate you will be taken to the landing page described in the code below, where the javascript code checks to see if parameters have been passed in the url hash string, and shows the confirmation message if a valid user id has been found. If you have properly authenticated you will see a confirmation message that displays your Dropbox ID. <br><br><strong>Note:</strong> This code uses jQuery to manipulate the DOM, some familiarity is required.</p>
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-          <script async src="https://jsfiddle.net/pedrotp/Lm4vn68L/10/embed/html/"></script>
-          <iframe src="app.html" width="100%" height="400px"></iframe>
+          <script async src="http://jsfiddle.net/pedrotp/Lm4vn68L/12/embed/js,html/"></script>
         </div>
       </div>
+      <div class="container-fluid">
+        <h1 class="text-center">Hi, please log in: </h1>
+        <a class="btn btn-large btn-social btn-dropbox col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4" target="_blank" href="https://www.dropbox.com/1/oauth2/authorize/?response_type=token&client_id=30s66ycuybxn0ai&redirect_uri=https://pedrotp.github.io/osu-how-to/auth.html">
+        <span class="fa fa-dropbox"></span>Log in with Dropbox</a>
+      </div>
+      <br>
+      <p class="lead text-center">Great. Now that you've learned how to properly authenticate with the Dropbox API,<br>let's work on interacting with the files in the user's App Folder.</p>
       <nav>
         <ul class="pager">
           <li class="previous"><a href="1.html"><span aria-hidden="true">&larr;</span> Previous</a></li>
