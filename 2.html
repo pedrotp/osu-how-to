@@ -43,7 +43,7 @@
       </nav>
       <br>
       <h1 class="text-center">OAuth</h1><br>
-      <p class="lead text-center">Prior to sending any requests to the Dropbox API, you have to tell Dropbox who you are (App Authentication) and which user is granting you access to their Dropbox account (User Authentication). To do that, you are going to use an open specification called <a href="http://oauth.net/2/" target="_blank">OAuth</a>. You can learn more about how Dropbox uses OAuth in their <a href="https://www.dropbox.com/developers/reference/oauth-guide" target="_blank">OAuth Guide</a>.</p><br>
+      <p class="lead text-center">Prior to sending any requests to the Dropbox API, you have to tell Dropbox who you are (App Authentication) and which user is granting you access to their Dropbox account (User Authentication). To do that, you are going to use an open specification called <a href="https://oauth.net/2/" target="_blank">OAuth</a>. You can learn more about how Dropbox uses OAuth in their <a href="https://www.dropbox.com/developers/reference/oauth-guide" target="_blank">OAuth Guide</a>.</p><br>
       <h3>App Authentication</h3>
       <p class="ptp-body-text">To authenticate your app with the Dropbox API, you need to register your app to get a key, which you will use to authenticate all HTTP requests to Dropbox. The following lines from the "Setting up your app" section of the Dropbox OAuth guide explain what to do to register:</p>
       <blockquote cite="https://www.dropbox.com/developers/reference/oauth-guide">
@@ -77,7 +77,7 @@
       <p class="ptp-body-text">The code below is for a landing page that simply checks whether the user has properly authenticated or not, and displays a message informing the user. The <strong>Log in with Dropbox</strong> button below is just a link with the above authentication url as the target. It opens the Dropbox authentication website in a new window because Dropbox does not allow that site to be opened in an iframe or embedded script. Once you authenticate you will be taken to the landing page described in the code below, where the javascript code checks to see if parameters have been passed in the url hash string, and shows the confirmation message if a valid user id has been found. If you have properly authenticated you will see a confirmation message that displays your Dropbox ID. <br><br><strong>Note:</strong> This code uses jQuery to manipulate the DOM, some familiarity is required.</p>
       <div class="row">
         <div class="col-md-6 col-md-offset-3">
-          <script async src="http://jsfiddle.net/pedrotp/Lm4vn68L/12/embed/js,html/"></script>
+          <script async src="https://jsfiddle.net/pedrotp/Lm4vn68L/12/embed/js,html/"></script>
         </div>
       </div>
       <div class="container-fluid">
