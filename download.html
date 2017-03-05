@@ -9,15 +9,26 @@
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <div class="container">
+    <div id="main-container" class="container">
+      <div class="row">
+        <div class="col-sm-offset-4 col-sm-4">
+          <img src="assets/dropbox_blue.svg" alt="Dropbox Logo">
+          <br><br>
+        </div>
+      </div>
+      <h1 class="text-center">Here are all the gifs stored in your account:</h1>
+      <div id="imagediv">
+      </div>
     </div>
   </body>
+  <script type="text/javascript" src="https://www.dropbox.com/static/api/2/dropins.js" id="dropboxjs" data-app-key="30s66ycuybxn0ai"></script>
   <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
   <script type="text/javascript">
     $(function () {
+
       var QueryObj = function () {
         // function to decode a uri query string from http://stackoverflow.com/a/979995
         var query_string = {};
@@ -40,9 +51,49 @@
         return query_string;
       }();
 
-      if (QueryObj.account_id) {
-        $($('div.container')[0]).html('<h1 class="text-center">Congrats! You have been authenticated.</h1><h3 class="text-center">Your Dropbpox ID is ' + QueryObj.account_id.substring(5) + '</h3>');
-      } else {
+      if (QueryObj.access_token) {
+        var request = new XMLHttpRequest();
+        request.open('POST', 'https://api.dropboxapi.com/2/files/list_folder', true);
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);
+        request.addEventListener("load", displayImages);
+        var data = {
+          "path": "",
+          "recursive": false,
+          "include_media_info": false,
+          "include_deleted": false,
+          "include_has_explicit_shared_members": false
+        };
+        request.send(JSON.stringify(data));
+
+        function displayImages() {
+          if (request.status == 200) {
+              var resData = JSON.parse(request.responseText);
+              console.log(resData.entries);
+              var list = $('<ul></ul>');
+
+              for (var i = 0; i < resData.entries.length; i++) {
+                var req = new XMLHttpRequest();
+                req.open('POST', 'https://content.dropboxapi.com/2/files/download', true);
+                req.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);
+                var data = {
+                  "path": "" + resData.entries[i].path_display
+                };
+                req.setRequestHeader('Dropbox-API-Arg', JSON.stringify(data));
+                req.responseType = "blob";
+                req.addEventListener("load", showImage);
+                req.send();
+
+                function showImage(prog) {
+                  var img = $('<img class="img-thumbnail">');
+                  img.attr('src', URL.createObjectURL(prog.target.response));
+                  img.appendTo('#imagediv');
+                }
+              }
+          }
+        }
+      }
+      else {
         $($('div.container')[0]).html('<h1 class="text-center">Whoops! You have not been authenticated properly.</h1><h3 class="text-center">A valid Dropbox ID was not found.</h3>');
       }
 

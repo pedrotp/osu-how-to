@@ -59,7 +59,7 @@
 
       $('#searchbtn').click(function (event) {
         event.preventDefault();
-        if (QueryObj.account_id) {
+        if (QueryObj.access_token) {
           var request = new XMLHttpRequest();
           searchTerm = $('#searchbox').val()
           request.open('GET', 'http://api.giphy.com/v1/gifs/search?q=' + encodeURIComponent(searchTerm) + '&api_key=dc6zaTOxFJmzC', true);
@@ -86,7 +86,7 @@
       $(document).on('click','.img-thumbnail',function (event) {
 
         var request = new XMLHttpRequest();
-        var fileName = 'gif'+ saveCount + '.gif';
+        var fileName = searchTerm + saveCount + '.gif';
         request.open('POST', 'https://api.dropboxapi.com/2/files/save_url', true);
         request.setRequestHeader('Content-Type', 'application/json');
         request.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);
@@ -94,13 +94,15 @@
         var data = { path: '/' + fileName, url: $(this).attr('src') };
         request.send(JSON.stringify(data));
 
-        var target = this;
+        var target = event.target;
         function saveImage() {
           if (request.status == 200) {
             var alert = $('<div class="alert alert-success fade in" role="alert">Image added to your Dropbox account!</div>');
             $('#main-container').prepend(alert);
             alert.delay(800).fadeOut();
-            target.hide();
+            console.log(event.target);
+            $(target).hide();
+            saveCount++;
           } else {
             var alert = $('<div class="alert alert-danger fade in" role="alert">Error! Image not saved.</div>');
             $('#main-container').prepend(alert);

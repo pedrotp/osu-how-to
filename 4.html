@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <title>Getting Started with the Dropbox API</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.min.css" />
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
@@ -41,7 +43,34 @@
       </nav>
       <br>
       <h1 class="text-center">Downloading Files</h1><br>
-      <p class="lead text-center"></p>
+      <p class="lead text-center">Finally, we are going to learn how to access the files you've already saved in your Dropbox APP folder. Now that we've successfully authenticated and uploaded files to our Dropbox, this shouldn't be too hard.</p>
+      <p class="ptp-body-text">The one complication we are introducing in this step, is that we are going to have to do <strong>nested HTTP requests</strong> to properly display all the items in your Dropbox. To get all the animated GIFs you saved in your app folder in the previous section, we first have to make a request to the <code>/list_folder</code> endpoint to get an array with information about all the files in your app folder. Then, we loop through all the items in that array to make individual requests to the <code>/download</code> endpoint, to request each file individually and add it to the DOM with a little jQuery magic.</p>
+      <!-- <blockquote>
+        <code>request.open('POST', 'https://api.dropboxapi.com/2/files/save_url', true);</code>
+      </blockquote>
+      <p class="ptp-body-text">Here, we open our asynchronous POST request to the save_url endpoint in the Dropbox API.</p>
+      <blockquote>
+        <code>request.setRequestHeader('Authorization', 'Bearer ' + QueryObj.access_token);</code>
+      </blockquote>
+      <p class="ptp-body-text">This line sets the Authorization request header to the bearer token we received during authentication in the previous page of the tutorial. This header tells the Dropbox API who we are.</p>
+      <blockquote>
+        <code>var data = { path: '/' + fileName, url: $(this).attr('src') };</code>
+      </blockquote>
+      <p class="ptp-body-text">This is the data that is sent to Dropbox as JSON. It includes two parameters, the <strong>path</strong> where we are going to store the file in our app folder, and the <strong>url</strong> from which we are fetching the file. In this case, the URL is the <em>src</em> attribute of the image we just clicked on.</p> -->
+      <br>
+      <p class="ptp-body-text">Explore the rest of the code in the fiddle below, and then hit the <strong>Log in with Dropbox</strong> button below to log in and try the landing page in action. Make sure to save some great gif images to your account that we can access in the next step! When you are done exploring, hit 'next' to continue.</p>
+      <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+          <script async src="http://jsfiddle.net/pedrotp/L2bw8z3n/1/embed/js,html/"></script>
+        </div>
+      </div>
+      <div class="container-fluid">
+        <h1 class="text-center">Log in here:</h1>
+        <a class="btn btn-large btn-social btn-dropbox col-xs-6 col-xs-offset-3 col-md-4 col-md-offset-4" target="_blank" href="https://www.dropbox.com/1/oauth2/authorize/?response_type=token&client_id=30s66ycuybxn0ai&redirect_uri=https://pedrotp.github.io/osu-how-to/download.html">
+        <span class="fa fa-dropbox"></span>Log in with Dropbox</a>
+      </div>
+      <br><br>
+      <p class="lead text-center">That's it! You now know how to authenticate, download files and upload files from the Dropbox API. From there, it's easy to continue to explore the API documentation to build even more complex apps. Good luck!</p>
       <nav>
         <ul class="pager">
           <li class="previous"><a href="3.html"><span aria-hidden="true">&larr;</span> Previous</a></li>
