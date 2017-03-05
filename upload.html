@@ -62,7 +62,7 @@
         if (QueryObj.access_token) {
           var request = new XMLHttpRequest();
           searchTerm = $('#searchbox').val()
-          request.open('GET', 'http://api.giphy.com/v1/gifs/search?q=' + encodeURIComponent(searchTerm) + '&api_key=dc6zaTOxFJmzC', true);
+          request.open('GET', 'https://api.giphy.com/v1/gifs/search?q=' + encodeURIComponent(searchTerm) + '&api_key=dc6zaTOxFJmzC', true);
           request.addEventListener("load", searchReq);
           request.send();
 
